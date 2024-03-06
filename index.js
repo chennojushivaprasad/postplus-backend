@@ -5,13 +5,13 @@ const cors = require('cors');
 const app = express();
 dotenv.config();
 
-// Import MongoDB configuration
+
 const connectDB = require('./config/mongoDBConfig');
 
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
-const whitelist = ['http://localhost:3005'];
+const whitelist = ['http://localhost:3005',process.env.BASE_URL];
 
 const corsOptions = function (req, callback) {
     let corsOptions;
