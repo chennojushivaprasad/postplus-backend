@@ -23,16 +23,16 @@ const getAllPost = async (req, res) => {
 const getMyPosts = async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 10;
-  const userId = req.user?._id;
+  const userId = req.params.userId;
   try {
     const totalPosts = await Post.countDocuments({ _id: userId });
     const totalPages = Math.ceil(totalPosts / limit);
 
-    const posts = await Post.find({ _id: userId })
+    const posts = await Post.find({author:userId})
       .populate("author")
       .skip((page - 1) * limit)
       .limit(limit);
-
+      
     res.status(200).json({ posts, totalPages, totalPosts, currentPage: page });
   } catch (error) {
     console.error(error, "myposts");
