@@ -13,10 +13,8 @@ const { uploadPostCoverImage } = require("../MiddleWare/Media/UploadPostCoverIma
 
 const postRouter = express.Router();
 
-
-
 postRouter.get("/", verifyToken, getAllPost);
-postRouter.get("/my-posts", verifyToken, getMyPosts);
+postRouter.get("/my-posts/:userId", verifyToken, getMyPosts);
 
 postRouter.get("/search", verifyToken, searchPosts);
 postRouter.get("/:postId", verifyToken, getPost);
