@@ -3,8 +3,7 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 
 const app = express();
-
-dotenv.config({ path: ".env" });
+dotenv.config();
 
 
 const connectDB = require('./config/mongoDBConfig');
@@ -12,11 +11,20 @@ const connectDB = require('./config/mongoDBConfig');
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
-app.use(
-  cors({
-    origin: process.env.BASE_URL,
-  })
-);
+const whitelist = ['http://localhost:3005',process.env.BASE_URL];
+
+const corsOptions = function (req, callback) {
+    let corsOptions;
+    if (whitelist.indexOf(req.headers.origin) !== -1) {
+        corsOptions = { origin: true };
+    } else {
+        corsOptions = { origin: false };
+    }
+
+    callback(null, corsOptions);
+};
+
+app.use(cors(corsOptions));
 
 
 const authRouter = require('./Routes/authRoutes');
