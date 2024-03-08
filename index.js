@@ -3,7 +3,8 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 
 const app = express();
-dotenv.config();
+
+dotenv.config({ path: ".env" });
 
 
 const connectDB = require('./config/mongoDBConfig');
